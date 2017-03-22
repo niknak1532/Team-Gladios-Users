@@ -1,9 +1,9 @@
 import java.util.*;
 
-public class Admin extends user
+public class Admin
 {
 	ArrayList<user> adminList;
-	private boolean grant_admin_right;
+	//private boolean grant_admin_right;
 	public Admin()
 	{
 		grant_admin_right=false;
