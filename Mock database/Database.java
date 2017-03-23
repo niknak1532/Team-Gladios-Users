@@ -1,4 +1,4 @@
-protected class Database
+protected class Database //!< This is the mock database
 {
 	private boolean admin; //!< An abbitrary variable to be checked when mocking the database. 
 	
