@@ -2,11 +2,18 @@ class Guest{
 	
 	private String username;
 	private String email;
-	
+	/**
+	*Guest constructor
+	*it is used to create new Guests object that will last until the guest leave the app or log off
+	* @param name 
+	* 		 	is the user name of the Guest or the name that will be displayed at the app 
+	*@param email
+	*			is the email of the guest
+	 *
+	*/
 	Guest(String name, String em){
-		/* the guest user name and the email are set in the constructor
-		*and they will never be updated since this is not the register
-		*user and no need to update them*/
+		
+		
 		username=name;
 		email=em;
 	}

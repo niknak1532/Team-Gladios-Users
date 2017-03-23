@@ -9,11 +9,18 @@ class Admin{
 		
 		return user.getUsername();
 	}
+	/**
+	*reset the username of the user
+	* @param name 
+	* 		 	is the new username that will over write the existing one
+	*@param pass
+	*			is the password of the user will be user to validate if it is the correct user who want to change the username
+	 *
+	 *return false if the password dont match 
+	*else return true
+	*/
 	public boolean setUsername(String name, String pass){
-		/*reseting the user name
-		* the user input the pass word and check if the password is correct
-		*before updating the user name
-		*else throw an exception*/
+		
 		if(!pass.equals(getPassword())){
 			System.out.println("Password is incorrect");
 			return false;
@@ -28,14 +35,20 @@ class Admin{
 	public long getID(){
 		return user.getID();
 	}
-	
+	/**
+	*update password
+	* @param name 
+	* 		 	is the username of the admin to check if this is the correct user who does the changes
+	*@param pass
+	*			is the new password that will overwite the existing password
+	*@param oldPass 
+	*		is the currecnt password that will be useed to check if the user knows the password and it is the correct user who does the changes
+	 *
+	 *return false if the password or username do not match 
+	*else return true
+	*/
 	public boolean updatePass(String name, String pass, String oldPass){
-		
-		/*updating  the password
-		* the user input the input the currect password and the username
-		*check if the username is correct and current password is correct
-		*before updating the user name
-		*else throw an exception*/
+	
 		
 		if(!name.equals(getAdminName())){
 			System.out.println("The user name is incorrect");
