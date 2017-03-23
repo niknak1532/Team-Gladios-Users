@@ -44,16 +44,5 @@ public class Update_User {
         } 
     }
     
-
-   public static void main(String args[]) {
    
-//       int idn = 0;
-//       System.out.print("Please Enter Your User id");
-//       Scanner sc = new Scanner(System.in);
-//       idn = sc.nextInt();
-//   
-//       get_user_update(idn,"Peter","Soroush","i am Student");
-       
-       
-   }    
 }
