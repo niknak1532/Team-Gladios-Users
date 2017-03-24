@@ -1,3 +1,5 @@
+ java.util.Date
+
 package users;
 
 /**
@@ -45,16 +47,32 @@ public class User {
 	    
          
 	    
-	    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+LocalDateTime now = LocalDateTime.now();
+//Send   dtf.format(now)  To DataBase in ResetDate column
     }
 	
 
     public boolean checkresetKey(String rKey)
     {
+	    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+  	    LocalDateTime now = LocalDateTime.now();
+	    
 	if(rKey == resetKey) 
 	{
-		if(resetDate == )
-	}	
+		if( dtf.format(now) - /*resetDate from Database*/  <= 0000/00/03 00:00:00  )
+		{
+			return true;
+		}
+		else
+		{
+			System.out.println("Your Key has been Expired!")
+		}
+	}
+	else
+	{
+		System.out.println("There is something Wrong with your Link")	
+	}
     }
 	    
 	    
