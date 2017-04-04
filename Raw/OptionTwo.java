@@ -32,12 +32,12 @@ public class OptionTwo
 	
 	public boolean registerUser(String username,String password,String firstname,String lastname,String email)
 	{
-		String sql="SELECT * FROM "+/* please insert table name here */ + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeQuery(sql);
 		if(result.next())
 			return false;
 		sql="INSERT INTO ";
-		sql += /* please insert table name here*/ ;
+		sql += "User" ;
 		sql +="VALUES (";
 		sql += /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
 		stmt.executeUpdate(sql);
@@ -55,7 +55,7 @@ public class OptionTwo
 	
 	public int login(String username,String password)
 	{
-		String sql="SELECT * FROM "+/* please insert table name here */ + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeQuery(sql);
 		if(result.next())
 			return result.getInt("id");
@@ -72,10 +72,10 @@ public class OptionTwo
 	*/
 	public boolean removeUser(String username)
 	{
-		String sql="DELETE FROM "+/* please insert table name here */ + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="DELETE FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeUpdate(sql);
 		db.commit();
-		String sql="SELECT * FROM "+/* please insert table name here */ + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
 		result=stmt.executeQuery(sql);
 		if(result.next())
 			return false;
