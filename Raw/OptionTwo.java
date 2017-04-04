@@ -30,7 +30,7 @@ public class OptionTwo
 	* @return Returns a boolean to state if the user was successfully registered 
 	*/
 	
-	public boolean registerUser(String username,String password,String firstname,String lastname,String email)
+	public boolean registerUser(String username,String password,String firstname,String lastname,String email, int admin)
 	{
 		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeQuery(sql);
@@ -40,6 +40,7 @@ public class OptionTwo
 		sql += "User" ;
 		sql +="VALUES (";
 		sql += /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
+		sql+=");";
 		stmt.executeUpdate(sql);
 		return true;
 	}
