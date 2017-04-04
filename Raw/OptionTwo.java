@@ -82,4 +82,20 @@ public class OptionTwo
 		else
 			return true;
 	}
+	/*
+	* @param username Username string
+	* 
+	* @todo Retrieves the email of the user from the database
+	*
+	* @return Returns a the string with the email of the user, if found.If not found, it return null
+	*/
+	public String getEmail(String username)
+	{
+		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		ResultSet result=stmt.executeQuery(sql);
+		if(result.next())
+			return result.getString("email");
+		else
+			return null;
+	}
 }
