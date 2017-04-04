@@ -18,7 +18,7 @@ public class OptionTwo
 		db=o;
 		stmt=db.createStatement();
 	}
-	/*
+	/**
 	* @param username Username string
 	* @param password Password string
 	* @param firstname Firstname string
@@ -37,15 +37,15 @@ public class OptionTwo
 		if(result.next())
 			return false;
 		sql="INSERT INTO ";
-		sql += "User" ;
+		sql += "User (Username,Password,Firstname,Lastname,Email)" ;
 		sql +="VALUES (";
-		sql += /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
+		sql += username,password,firstname,lastname,email; /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
 		sql+=");";
 		stmt.executeUpdate(sql);
 		return true;
 	}
 	
-	/*
+	/**
 	* @param username Username string
 	* @param password Password string
 	*
@@ -56,7 +56,7 @@ public class OptionTwo
 	
 	public int login(String username,String password)
 	{
-		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="SELECT * FROM "+"User" + "WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeQuery(sql);
 		if(result.next())
 			return result.getInt("id");
@@ -64,7 +64,7 @@ public class OptionTwo
 			return -1;
 	}
 	
-	/*
+	/**
 	* @param username Username string
 	* 
 	* @todo Removes the user from the database
@@ -73,17 +73,17 @@ public class OptionTwo
 	*/
 	public boolean removeUser(String username)
 	{
-		String sql="DELETE FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="DELETE FROM "+"User" + "WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeUpdate(sql);
 		db.commit();
-		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="SELECT * FROM "+"User" + "WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
 		result=stmt.executeQuery(sql);
 		if(result.next())
 			return false;
 		else
 			return true;
 	}
-	/*
+	/**
 	* @param username Username string
 	* 
 	* @todo Retrieves the email of the user from the database
@@ -92,7 +92,7 @@ public class OptionTwo
 	*/
 	public String getEmail(String username)
 	{
-		String sql="SELECT * FROM "+"User" + "WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+		String sql="SELECT * FROM "+"User" + "WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
 		ResultSet result=stmt.executeQuery(sql);
 		if(result.next())
 			return result.getString("email");
