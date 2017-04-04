@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package users;
+package usersimplementation;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,11 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-import static users.Test2.encode;
 
 public class Users
 {
-	private Connection db; //!< This is the database object 
+	private Database db; //!< This is the database object 
 	private Statement stmt; //!< This is the statement object used to execute the queries
 	private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private static final long BASE = 36;
@@ -26,10 +25,10 @@ public class Users
 	*
 	*
 	*/
-	public Users(Connection o) throws SQLException
+	public Users(Database datab) throws SQLException
 	{
-		db=o;
-		stmt=db.createStatement();
+		db=datab;
+		stmt=db.con.createStatement();
 	}
         
 	/**
@@ -65,7 +64,7 @@ public class Users
 	* @param username Username string
 	* @param password Password string
 	*
-	* @todo It checks if the user exists in the databse
+	* @todo It checks if the user exists in the database
 	*
 	* @return Returns -1 if the user does not exist on the database. It returns the user's ID if the user exists on the database
 	*/
@@ -90,7 +89,7 @@ public class Users
 	{
 		String sql="DELETE FROM "+"User" + "WHERE Username=\'"+username+"';";
 		stmt.executeUpdate(sql);
-		db.commit();
+		db.con.commit();
 		sql="SELECT * FROM "+"User" + "WHERE Username=\'"+username+"';";
 		ResultSet result=stmt.executeQuery(sql);
 		if(result.next())
@@ -134,10 +133,7 @@ public class Users
         return getEmail(username)+" "+activatedKey;
         }
         
-        /**
-	* @param null
-	* 
-	* @todo generates and returns an activated key the is 7 characters long
+        /**@todo generates and returns an activated key the is 7 characters long
 	*
 	* @return Returns a string that is an activated key
 	*/
@@ -155,6 +151,7 @@ public class Users
         /**
 	* @param username Username string
         * @param key ActivatedKey string
+     * @throws java.sql.SQLException
 	* 
 	* @todo compares the given activated key with the specified user's activated key in the db
 	*
