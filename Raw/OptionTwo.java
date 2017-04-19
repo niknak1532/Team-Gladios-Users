@@ -124,9 +124,9 @@ public class OptionTwo
    return tmp;
  }
  
- public boolean checkDate(String d)
+ public boolean checkDate(String date)
  {
-   String ap[]=d.split(":");
+   String ap[]=date.split(":");
    if(ap.length!=3)
      return false;
    int d=Character.getNumericValue(ap[0].charAt(0)),m=Character.getNumericValue(ap[1].charAt(0)),y=0;
