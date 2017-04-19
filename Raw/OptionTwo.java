@@ -123,4 +123,25 @@ public class OptionTwo
    tmp+=""+c.get(Calendar.DAY_OF_MONTH)+":"+c.get(Calendar.MONTH)+":"c.get(Calendar.YEAR);
    return tmp;
  }
+ 
+ public boolean checkDate(String d)
+ {
+   String ap[]=d.split(":");
+   if(ap.length!=3)
+     return false;
+   int d=Character.getNumericValue(ap[0].charAt(0)),m=Character.getNumericValue(ap[1].charAt(0)),y=0;
+   if(ap[0].length()==2)
+     d=(d*10)+Character.getNumericValue(ap[0].charAt(1));
+   
+   if(ap[1].length()==0)
+     m=(m*10)+Character.getNumericValue(ap[1].charAt(1));
+   for(int i=0;i<4;i++)
+     y=(y*10)+Character.getNumericValue(ap[2].charAt(i));
+   
+   Calendar today=new GregorianCalendar();
+   Calendar exp=new GregorianCalendar(d,m,y);
+   if(today.compareTo(exp)>0)
+     return false;
+   return true;
+ }
 }
