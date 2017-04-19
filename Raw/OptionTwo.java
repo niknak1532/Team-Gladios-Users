@@ -111,7 +111,7 @@ public class OptionTwo
    String key="";
    Random random = new Random();
    for(int i=0;i<7;i++)
-     key.append(symbols.charAt(random.nextInt(symbols.length)));
+     key+=symbols.charAt(random.nextInt(symbols.length));
    return key;
  }
  
