@@ -34,7 +34,7 @@ public class OptionTwo
  * @return Returns a boolean to state if the user was successfully registered 
  */
  
- public boolean registerUser(String username,String password,String firstname,String lastname,String email, int admin,String pNum) throws Exception
+ public boolean registerUser(String username,String password,String firstname,String lastname,String email,String pNum) throws Exception
  {
   String sql="SELECT * FROM "+" Users" + " WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
   ResultSet result=stmt.executeQuery(sql);
@@ -59,7 +59,7 @@ public class OptionTwo
   return true;
  }
  
- /** VALUES('joseph')
+ /** 
  * @param username Username string
  * @param password Password string
  *
@@ -72,7 +72,7 @@ public class OptionTwo
  {
   String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
   ResultSet result=stmt.executeQuery(sql);
-  if(result.next())
+  if(result.next()&&result.getBoolean("activated"))
    return result.getInt("id");
   else
    return -1;
@@ -127,10 +127,16 @@ public class OptionTwo
  */
  public String getEmail(String username) throws Exception
  {
+
   String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
+
   ResultSet result=stmt.executeQuery(sql);
+
   if(result.next())
-   return result.getString("email");
+  {
+    //System.out.println(result.getString("email"));
+   return result.getString("email").trim();
+  }
   else
    return null;
  }
@@ -147,7 +153,7 @@ public class OptionTwo
   String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
   ResultSet result=stmt.executeQuery(sql);
   if(result.next())
-   return result.getString("PhoneNumber");
+   return result.getString("PhoneNumber").trim();
   else
    return null;
  }
