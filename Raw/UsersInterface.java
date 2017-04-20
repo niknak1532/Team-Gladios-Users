@@ -1,207 +1,293 @@
-import java.sql.Connection;
 import java.sql.*;
+
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.Random;
-import java.util.*;
-import java.lang.Character;
-//static int id=0; 
-public class OptionTwo
+
+
+public final class UsersInterface
 {
- private Connection db; //!< This is the database object 
- private Statement stmt; //!< This is the statement object used to execute the queries
- 
- /*
- * @param o Dabase object
- * @todo Assigns the passed object to the local databse object. Then creates the Statement object, which will be used to execute the SQL queries
- *
- *
- */
- public OptionTwo(Connection o) throws Exception
- {
-  db=o;
-  stmt=db.createStatement();
- }
- /**
+
+  /**
+  *   @param
+  *         c is used to create the connection between the database
+  *  @param
+  *         ot is the object of OptionTwo used to access the functions in the optiontwo class
+  *   
+  *
+  */
+  private static Connection c = null;
+  private static OptionTwo ot=null;
+
+  /**
+  *
+  *
+  * @todo 
+  *     the connectToDatabase() connect to the database and creat connection of the database.
+  *
+  */
+
+  private static void connectToDatabase()
+  {
+    if(c==null){
+    try
+      {
+        Database db=null;
+        db=Database.getInstance();
+        ot=new OptionTwo(db.getConnection());
+      }
+      catch(Exception e)
+      {}
+    }
+  }
+
+/**
  * @param username Username string
  * @param password Password string
  * @param firstname Firstname string
  * @param lastname Lastname string
  * @param email Email string
  *
- * @todo It first checks if the database has the user, if not it adds the user.
+ * @todo it calls the registerUser() in OptionTwo class to add the user
  *
  * @return Returns a boolean to state if the user was successfully registered 
  */
- 
- public boolean registerUser(String username,String password,String firstname,String lastname,String email,String pNum) throws Exception
- {
-  String sql="SELECT * FROM "+" Users" + " WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
-  ResultSet result=stmt.executeQuery(sql);
-  //System.out.println(setExpirationDate());
-  if(result.next())
-   return false;
- 
-  sql="INSERT INTO ";
-  sql += "Users (Username,Password,Firstname,Lastname,Email,ActivatedKey,ResetKey,ResetDate,PhoneNumber,activated)" ;
-  sql +="VALUES (\'";
-  sql += username+"\',\'"+password+"\',\'"+firstname+"\',\'"+lastname+"\',\'"+email; /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
-  sql+="\',\'"+createActivationKey();
 
-  sql+="\',\'"+createActivationKey();
-   
-  sql+="\',\'"+setExpirationDate();
-  sql+="\',\'"+pNum;
-  sql+="\',false);";
-  stmt.executeUpdate(sql);
+  public static boolean registerUser(String username,String password,String firstname,String lastname,String email,String pNum)
+  {
+    connectToDatabase();
+    boolean re=false;
+    try
+    {
+     
+      re=ot.registerUser(username,password,firstname,lastname,email,pNum);
+    }
+    catch(Exception e)
+    {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
+  }
 
-  //System.out.println("here");
-  return true;
- }
- 
- /** 
+  /** 
  * @param username Username string
  * @param password Password string
  *
- * @todo It checks if the user exists in the databse
+ * @todo It calls login() in the optiontwo calls
  *
- * @return Returns -1 if the user does not exist on the database. It returns the user's ID if the user exists on the database
+ *
  */
- 
- public int login(String username,String password) throws Exception
- {
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
-  ResultSet result=stmt.executeQuery(sql);
-  if(result.next()&&result.getBoolean("activated"))
-   return result.getInt("id");
-  else
-   return -1;
- }
-
- public int userLoginReset(String username, String key) throws SQLException
-        {
-            String sql="SELECT * FROM "+"Users" + "WHERE Username=\'"+username+"\' AND ActivatedKey=\'"+key+"\' ;";
-            ResultSet result=stmt.executeQuery(sql);
-            if(result.next()&&checkDate(result.getString("ResetDate"))){
-                    return result.getInt("id");
-            }else
-                    return -1;
-        }
-        
-  public int emailLoginReset(String email, String key) throws SQLException
+  public static int login(String username,String password)
   {
-      String sql="SELECT * FROM "+"Users" + "WHERE Email=\'"+email+"\' AND ActivatedKey=\'"+key+"\' ;";
-      ResultSet result=stmt.executeQuery(sql);
-      if(result.next()&&checkDate(result.getString("ResetDate"))){
-              return result.getInt("id");
-      }else
-              return -1;
+    connectToDatabase();
+    boolean re=false;
+    try
+    {
+     
+      re=ot.login(username,password);
+    }
+    catch(Exception e)
+    {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
   }
- 
- /**
+
+  /** 
+ * @param username Username string
+ * @param password Password string
+ *
+ * @todo It calls login() in the optiontwo calls
+ *
+ *
+ */
+
+   public static int userLoginReset(String username,String key)
+  {
+    connectToDatabase();
+    boolean re=false;
+    try
+    {
+     
+      re=ot.userLoginReset(username,key);
+    }
+    catch(Exception e)
+    {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
+  }
+
+  /** 
+ * @param username Username string
+ * @param password Password string
+ *
+ * @todo It calls login() in the optiontwo calls
+ *
+ *
+ */
+
+
+   public static int emailLoginReset(String username,String key)
+  {
+    connectToDatabase();
+    boolean re=false;
+    try
+    {
+     
+      re=ot.emailLoginReset(username,key);
+    }
+    catch(Exception e)
+    {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
+  }
+
+
+  public static boolean testActivatedKey(String username,String key)
+  {
+    connectToDatabase();
+    boolean re=false;
+    try
+    {
+      re=ot.testActivatedKey(username,key);
+    }
+    catch(Exception e)
+    {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
+  }
+
+/**
  * @param username Username string
  * 
- * @todo Removes the user from the database
+ * @todo it calls removeUser() in optiontwo class to remove user
  *
  * @return Returns a boolean stating whether or not the user was successfully removed from the database.
  */
- public boolean removeUser(String username) throws Exception
- {
-  String sql="DELETE FROM "+"Users" + " WHERE Username=\'"+username+"\' ;";
-  stmt.executeUpdate(sql);
-  //stmt.close();
-  //db.commit();
-   sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
-  ResultSet result=stmt.executeQuery(sql);
-  if(result.next())
-   return false;
-  else
-   return true;
- }
- /**
+  public static boolean removeUser(String username)
+  {
+    connectToDatabase();
+    boolean re=false;
+    try
+    {
+      //OptionTwo ot=new OptionTwo(c);
+      re=ot.removeUser(username);
+    }
+    catch(Exception e)
+    {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
+  }
+
+/**
  * @param username Username string
  * 
- * @todo Retrieves the email of the user from the database
+ * @todo it calls getEmail() in optionTwo class to get email
  *
  * @return Returns a the string with the email of the user, if found.If not found, it return null
  */
- public String getEmail(String username) throws Exception
- {
-
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
-
-  ResultSet result=stmt.executeQuery(sql);
-
-  if(result.next())
+  public static String getEmail(String username)
   {
-    //System.out.println(result.getString("email"));
-   return result.getString("email").trim();
+    connectToDatabase();
+    String re="";
+    try
+    {
+      if(c==null)
+        System.out.println("her");
+      re=ot.getEmail(username);
+    }
+    catch(Exception e)
+    {
+        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
   }
-  else
-   return null;
- }
- 
- /**
+
+   /**
  * @param username Username string
  * 
- * @todo Retrieves the phone number of the user from the database
+ * @todo it calls getPhoneNumber() in optionTwo class
  *
  * @return Returns a the string with the phone number of the user, if found.If not found, it return null
  */
- public String getPhoneNumber(String username) throws Exception
- {
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
-  ResultSet result=stmt.executeQuery(sql);
-  if(result.next())
-   return result.getString("PhoneNumber").trim();
-  else
-   return null;
- }
 
- public String createActivationKey()
- {
-   String symbols=new String("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-   String key="";
-   Random random = new Random();
-   for(int i=0;i<7;i++)
-     key+=symbols.charAt(random.nextInt(symbols.length()));
-   return key;
- }
- public boolean checkDate(String date)
- {
-   String ap[]=date.split(":");
-   if(ap.length!=3)
-     return false;
-   int d=Character.getNumericValue(ap[0].charAt(0)),m=Character.getNumericValue(ap[1].charAt(0)),y=0;
-   if(ap[0].length()==2)
-     d=(d*10)+Character.getNumericValue(ap[0].charAt(1));
-   
-   if(ap[1].length()==0)
-     m=(m*10)+Character.getNumericValue(ap[1].charAt(1));
-   for(int i=0;i<4;i++)
-     y=(y*10)+Character.getNumericValue(ap[2].charAt(i));
-   
-   Calendar today=new GregorianCalendar();
-   Calendar exp=new GregorianCalendar(d,m,y);
-   if(today.compareTo(exp)<0)
-     return false;
-   return true;
- }
- public String setExpirationDate()
- {
-   Calendar c=new GregorianCalendar();
-   c.add(GregorianCalendar.HOUR,24);
-   String tmp="";
-   tmp+=""+c.get(Calendar.DAY_OF_MONTH)+":"+c.get(Calendar.MONTH)+":"+c.get(Calendar.YEAR);
-   return tmp;
- }
+  public static String getPhoneNumber(String username)
+  {
+    connectToDatabase();
+    String re="";
+    try
+    {
+      //OptionTwo ot=new OptionTwo(c);
+      re=ot.getPhoneNumber(username);
+    }
+    catch(Exception e)
+    {
 
-  public boolean testActivatedKey(String username,String key) throws SQLException{
-      String sql="SELECT * FROM "+"Users" + "WHERE Username=\'"+username+"\' AND ActivatedKey=\'"+key+"\' ;";
-      ResultSet result=stmt.executeQuery(sql);
-      if(result.next())
-          return true;
-      else
-          return false;
+    }
+    finally
+    {
+      return re;
+    }
+  }
+  public static int userLoginReset(String username, String key)
+  {
+    connectToDatabase();
+    int re=-1;
+    try
+    {
+      //OptionTwo ot=new OptionTwo(c);
+      re=ot.userLoginReset(username,key);
+    }
+    catch(Exception e)
+    {
+
+    }
+    finally
+    {
+      return re;
+    }
+  }
+  public static int emailLoginReset(String email, String key)
+  {
+    connectToDatabase();
+    int re=-1;
+    try
+    {
+      //OptionTwo ot=new OptionTwo(c);
+      re=ot.emailLoginReset(email,key);
+    }
+    catch(Exception e)
+    {
+
+    }
+    finally
+    {
+      return re;
+    }
   }
 }
