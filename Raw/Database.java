@@ -15,6 +15,8 @@ public class Database {
 	*
 	*/
 	private static Database instance =null;
+	private Connection c = null;
+    private Statement stmt = null;
 
 	/**
 	* @param db 
@@ -33,17 +35,16 @@ public class Database {
 	*/
 	private Database(){
 
-		Connection c = null;
-       	Statement stmt = null;
+		
        try {
          	 Class.forName("org.postgresql.Driver");
-         //	c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/UserDb","postgres", "joseph");
-         	c= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,user, pass);
+         	c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "joseph");
+         	//c= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,user, pass);
 
          	
 	        stmt = c.createStatement();
-	        String sql = "CREATE TABLE User " +
-	                      "(ID INT PRIMARY KEY     NOT NULL," +
+	        String sql = "CREATE TABLE IF NOT EXISTS Users " +
+	                      "(ID SERIAL ," +
 	                      "Username        	CHAR(50)    NOT NULL, " +
 	                      "Password			CHAR(50)	NOT NULL, "+
 	                      "Firstname		CHAR(50)	NOT NULL, "+
@@ -52,11 +53,12 @@ public class Database {
 	                      "Activated		BOOLEAN," +
 	                      "ActivatedKey		CHAR(50)	, "+
 	                      "ResetKey			CHAR(50)	, "+
-	                      "ResetDate		DATE 		) ";
+	                      "phonenumber		char(10)	, "+
+	                      "ResetDate		CHAR(10),  PRIMARY KEY (ID)		) ";
 	                      
 	        stmt.executeUpdate(sql);
 	        stmt.close();
-	        c.close();
+	       // c.close();
 	    } catch ( Exception e ) {
 	         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 	         System.exit(0);
@@ -79,6 +81,9 @@ public class Database {
 		    return instance;
 
 		   
+		}
+		public Connection getConnection(){
+			return c;
 		}
 
 }
