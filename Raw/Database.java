@@ -1,5 +1,4 @@
 import java.sql.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -38,7 +37,7 @@ public class Database {
 		
        try {
          	 Class.forName("org.postgresql.Driver");
-         	c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "joseph");
+         	c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "123");
          	//c= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,user, pass);
 
          	
@@ -47,13 +46,13 @@ public class Database {
 	                      "(ID SERIAL ," +
 	                      "Username        	CHAR(50)    NOT NULL, " +
 	                      "Password			CHAR(50)	NOT NULL, "+
-	                      "Firstname		CHAR(50)	NOT NULL, "+
-	                      "Lastname			CHAR(50)	NOT NULL, "+
+	                      "Fullname		CHAR(50)	NOT NULL, "+
 	                      "Email			CHAR(50)	NOT NULL, "+
+                              "Admin		BOOLEAN," +
 	                      "Activated		BOOLEAN," +
 	                      "ActivatedKey		CHAR(50)	, "+
 	                      "ResetKey			CHAR(50)	, "+
-	                      "phonenumber		char(10)	, "+
+	                      "Phonenumber		char(10)	, "+
 	                      "ResetDate		CHAR(10),  PRIMARY KEY (ID)		) ";
 	                      
 	        stmt.executeUpdate(sql);
