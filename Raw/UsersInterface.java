@@ -1,5 +1,4 @@
 import java.sql.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -17,7 +16,7 @@ public final class UsersInterface
   *
   */
   private static Connection c = null;
-  private static OptionTwo ot=null;
+  private static User ot=null;
 
   /**
   *
@@ -34,7 +33,7 @@ public final class UsersInterface
       {
         Database db=null;
         db=Database.getInstance();
-        ot=new OptionTwo(db.getConnection());
+        ot=new User(db.getConnection());
       }
       catch(Exception e)
       {}
@@ -44,7 +43,9 @@ public final class UsersInterface
 /**
  * @param username Username string
  * @param password Password string
+     * @param fullname
  * @param firstname Firstname string
+     * @param pNum
  * @param lastname Lastname string
  * @param email Email string
  *
@@ -53,14 +54,14 @@ public final class UsersInterface
  * @return Returns a boolean to state if the user was successfully registered 
  */
 
-  public static boolean registerUser(String username,String password,String firstname,String lastname,String email,String pNum)
+  public static boolean registerUser(String username,String password,String fullname,String email,String pNum)
   {
     connectToDatabase();
     boolean re=false;
     try
     {
      
-      re=ot.registerUser(username,password,firstname,lastname,email,pNum);
+      re=ot.registerUser(username,password,fullname,email,pNum);
     }
     catch(Exception e)
     {
@@ -83,7 +84,7 @@ public final class UsersInterface
   public static int login(String username,String password)
   {
     connectToDatabase();
-    boolean re=false;
+    int re=-1;
     try
     {
      
@@ -111,7 +112,7 @@ public final class UsersInterface
    public static int userLoginReset(String username,String key)
   {
     connectToDatabase();
-    boolean re=false;
+    int re=-1;
     try
     {
      
@@ -129,6 +130,7 @@ public final class UsersInterface
 
   /** 
  * @param username Username string
+ * @param key
  * @param password Password string
  *
  * @todo It calls login() in the optiontwo calls
@@ -140,10 +142,9 @@ public final class UsersInterface
    public static int emailLoginReset(String username,String key)
   {
     connectToDatabase();
-    boolean re=false;
+    int re=-1;
     try
     {
-     
       re=ot.emailLoginReset(username,key);
     }
     catch(Exception e)
@@ -156,7 +157,12 @@ public final class UsersInterface
     }
   }
 
-
+    /**
+     *
+     * @param username
+     * @param key
+     * @return
+     */
   public static boolean testActivatedKey(String username,String key)
   {
     connectToDatabase();
@@ -178,7 +184,7 @@ public final class UsersInterface
 /**
  * @param username Username string
  * 
- * @todo it calls removeUser() in optiontwo class to remove user
+ * @todo it calls removeUser() in user class to remove user
  *
  * @return Returns a boolean stating whether or not the user was successfully removed from the database.
  */
@@ -188,7 +194,6 @@ public final class UsersInterface
     boolean re=false;
     try
     {
-      //OptionTwo ot=new OptionTwo(c);
       re=ot.removeUser(username);
     }
     catch(Exception e)
@@ -201,6 +206,31 @@ public final class UsersInterface
     }
   }
 
+ /**
+ * @param username Username string
+ * 
+ * @todo it calls getEmail() in optionTwo class to get email
+ *
+ * @return Returns a the string with the email of the user, if found.If not found, it return null
+ */
+  public static String getUserDetails(String username)
+  {
+    connectToDatabase();
+    String re="";
+    try
+    {
+      re=ot.getUserDetails(username);
+    }
+    catch(Exception e)
+    {
+        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally
+    {
+      return re;
+    }
+  }
+  
 /**
  * @param username Username string
  * 
@@ -214,8 +244,6 @@ public final class UsersInterface
     String re="";
     try
     {
-      if(c==null)
-        System.out.println("her");
       re=ot.getEmail(username);
     }
     catch(Exception e)
@@ -242,44 +270,7 @@ public final class UsersInterface
     String re="";
     try
     {
-      //OptionTwo ot=new OptionTwo(c);
       re=ot.getPhoneNumber(username);
-    }
-    catch(Exception e)
-    {
-
-    }
-    finally
-    {
-      return re;
-    }
-  }
-  public static int userLoginReset(String username, String key)
-  {
-    connectToDatabase();
-    int re=-1;
-    try
-    {
-      //OptionTwo ot=new OptionTwo(c);
-      re=ot.userLoginReset(username,key);
-    }
-    catch(Exception e)
-    {
-
-    }
-    finally
-    {
-      return re;
-    }
-  }
-  public static int emailLoginReset(String email, String key)
-  {
-    connectToDatabase();
-    int re=-1;
-    try
-    {
-      //OptionTwo ot=new OptionTwo(c);
-      re=ot.emailLoginReset(email,key);
     }
     catch(Exception e)
     {
