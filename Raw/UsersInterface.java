@@ -8,10 +8,10 @@ public final class UsersInterface
 {
 
   /**
-  *   @param
-  *         c is used to create the connection between the database
-  *  @param
-  *         ot is the object of OptionTwo used to access the functions in the optiontwo class
+  *   @param c is the object with the connection to the database.
+  *         
+  *  @param ot is the object that is used to access the database services.
+  *         
   *   
   *
   */
@@ -19,11 +19,12 @@ public final class UsersInterface
   private static User ot=null;
 
   /**
+  * @param Accepts nothing.
   *
-  *
-  * @todo 
-  *     the connectToDatabase() connect to the database and creat connection of the database.
-  *
+  * @todo It establishes a connection to the database.
+  *     
+  * @return Returns nothing.
+  * 
   */
 
   private static void connectToDatabase()
@@ -41,17 +42,15 @@ public final class UsersInterface
   }
 
 /**
- * @param username Username string
- * @param password Password string
-     * @param fullname
- * @param firstname Firstname string
-     * @param pNum
- * @param lastname Lastname string
- * @param email Email string
+ * @param username Username as a string.
+ * @param password Password as a string.
+ * @param fullname User's full name as a string.
+ * @param email User's email address as a string.
+ * @param pNum User's phone number as a string.
  *
- * @todo it calls the registerUser() in OptionTwo class to add the user
+ * @todo Registers the user to the database using the given information.
  *
- * @return Returns a boolean to state if the user was successfully registered 
+ * @return Returns a boolean to state if the user was successful or not in registering themselves. 
  */
 
   public static boolean registerUser(String username,String password,String fullname,String email,String pNum)
@@ -74,12 +73,12 @@ public final class UsersInterface
   }
 
   /** 
- * @param username Username string
- * @param password Password string
+ * @param username Username as a string
+ * @param password Password as a string
  *
- * @todo It calls login() in the optiontwo calls
+ * @todo It checks if the user is registered in the database and that his/her account has been activated.
  *
- *
+ * @return Returns the user's ID if the user exists on the database and their account is activated. Otherwise, it returns -1.
  */
   public static int login(String username,String password)
   {
@@ -101,12 +100,12 @@ public final class UsersInterface
   }
 
   /** 
- * @param username Username string
- * @param password Password string
+ * @param username Username as a string
+ * @param password Password as a string
  *
- * @todo It calls login() in the optiontwo calls
+ * @todo Activates the user's account using the user's username and the activation key they were sent.
  *
- *
+ * @return Returns the user's ID if the user exists on the database and their account is activated. Otherwise, it returns -1.
  */
 
    public static int userLoginReset(String username,String key)
@@ -129,17 +128,15 @@ public final class UsersInterface
   }
 
   /** 
- * @param username Username string
- * @param key
- * @param password Password string
+ * @param email Email as a string
+ * @param password Password as a string
  *
- * @todo It calls login() in the optiontwo calls
+ * @todo Activates the user's account using the user's registered email and the activation key they were sent.
  *
- *
+ * @return Returns the user's ID if the user exists on the database and their account is activated. Otherwise, it returns -1.
  */
 
-
-   public static int emailLoginReset(String username,String key)
+   public static int emailLoginReset(String email ,String key)
   {
     connectToDatabase();
     int re=-1;
@@ -157,12 +154,14 @@ public final class UsersInterface
     }
   }
 
-    /**
-     *
-     * @param username
-     * @param key
-     * @return
-     */
+  /** 
+ * @param username Username as a string
+ * @param key Key as a string
+ *
+ * @todo Checks if the user has the correct activation as the one assigned to them.
+ *
+ * @return Returns true or false to whether or not the activation key matched the one linked to the user.
+ */  */
   public static boolean testActivatedKey(String username,String key)
   {
     connectToDatabase();
@@ -184,7 +183,7 @@ public final class UsersInterface
 /**
  * @param username Username string
  * 
- * @todo it calls removeUser() in user class to remove user
+ * @todo It removes the given user's account
  *
  * @return Returns a boolean stating whether or not the user was successfully removed from the database.
  */
@@ -207,11 +206,11 @@ public final class UsersInterface
   }
 
  /**
- * @param username Username string
+ * @param username Username as a string
  * 
- * @todo it calls getEmail() in optionTwo class to get email
+ * @todo It checks if the user exists on the database
  *
- * @return Returns a the string with the email of the user, if found.If not found, it return null
+ * @return Returns a semi-colon separated string of the user's information [full name ; email ; phone number], or null if the user does not exist.
  */
   public static String getUserDetails(String username)
   {
@@ -232,11 +231,11 @@ public final class UsersInterface
   }
   
 /**
- * @param username Username string
+ * @param username Username as a string
  * 
- * @todo it calls getEmail() in optionTwo class to get email
+ * @todo It checks if the username exists in the database.
  *
- * @return Returns a the string with the email of the user, if found.If not found, it return null
+ * @return Returns a string with the email of the user, if found.If not found, it will return null.
  */
   public static String getEmail(String username)
   {
@@ -256,14 +255,13 @@ public final class UsersInterface
     }
   }
 
-   /**
- * @param username Username string
+  /**
+ * @param username Username as a string
  * 
- * @todo it calls getPhoneNumber() in optionTwo class
+ * @todo It checks if the username exists in the database.
  *
- * @return Returns a the string with the phone number of the user, if found.If not found, it return null
+ * @return Returns a string with the phone number of the user, if found.If not found, it will return null.
  */
-
   public static String getPhoneNumber(String username)
   {
     connectToDatabase();
