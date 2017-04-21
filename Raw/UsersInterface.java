@@ -17,7 +17,18 @@ public final class UsersInterface
   */
   private static Connection c = null;
   private static User ot=null;
-
+  
+  /**
+  *
+  * @param Accepts nothing
+  *
+  * @todo Makes sure that UsersInterface objects are never created.
+  *
+  * @return Returns nothing.
+  */
+  private UsersInterface()
+  {
+  }
   /**
   * @param Accepts nothing.
   *
