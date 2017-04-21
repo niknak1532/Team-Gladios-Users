@@ -37,7 +37,7 @@ public class Database {
 		
        try {
          	 Class.forName("org.postgresql.Driver");
-         	c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "123");
+         	c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "joseph");
          	//c= DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,user, pass);
 
          	

@@ -71,10 +71,11 @@ public final class UsersInterface
     try
     {
      
-      re=ot.registerUser(username.trim(),password.trim(),fullname.trim(),email.trim(),pNum.trim());
+      re=ot.registerUser(username,password,fullname,email,pNum);
     }
     catch(Exception e)
     {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -97,10 +98,11 @@ public final class UsersInterface
     try
     {
      
-      re=ot.login(username.trim(),password.trim());
+      re=ot.login(username,password);
     }
     catch(Exception e)
     {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -124,11 +126,11 @@ public final class UsersInterface
     try
     {
      
-      re=ot.userLoginReset(username.trim(),key.trim());
+      re=ot.userLoginReset(username,key);
     }
     catch(Exception e)
     {
-      
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -151,10 +153,11 @@ public final class UsersInterface
     int re=-1;
     try
     {
-      re=ot.emailLoginReset(username.trim(),key.trim());
+      re=ot.emailLoginReset(email,key);
     }
     catch(Exception e)
     {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -169,23 +172,29 @@ public final class UsersInterface
  * @todo Checks if the user has the correct activation as the one assigned to them.
  *
  * @return Returns true or false to whether or not the activation key matched the one linked to the user.
- */  */
+ */ 
   public static boolean testActivatedKey(String username,String key)
   {
     connectToDatabase();
     boolean re=false;
     try
     {
-      re=ot.testActivatedKey(username.trim(),key.trim());
+      re=ot.testActivatedKey(username,key);
     }
     catch(Exception e)
     {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
       return re;
     }
   }
+
+  public static String createActivationKey()
+ {
+   return ot.createActivationKey();
+ }
 
 /**
  * @param username Username string
@@ -200,10 +209,11 @@ public final class UsersInterface
     boolean re=false;
     try
     {
-      re=ot.removeUser(username.trim());
+      re=ot.removeUser(username);
     }
     catch(Exception e)
     {
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -221,13 +231,14 @@ public final class UsersInterface
   public static String getUserDetails(String username)
   {
     connectToDatabase();
-    String re="";
+    String re=null;
     try
     {
-      re=ot.getUserDetails(username.trim());
+      re=ot.getUserDetails(username);
     }
     catch(Exception e)
     {
+        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -245,13 +256,14 @@ public final class UsersInterface
   public static String getEmail(String username)
   {
     connectToDatabase();
-    String re="";
+    String re=null;
     try
     {
-      re=ot.getEmail(username.trim());
+      re=ot.getEmail(username);
     }
     catch(Exception e)
     {
+        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -269,17 +281,32 @@ public final class UsersInterface
   public static String getPhoneNumber(String username)
   {
     connectToDatabase();
-    String re="";
+    String re=null;
     try
     {
-      re=ot.getPhoneNumber(username.trim());
+      re=ot.getPhoneNumber(username);
     }
     catch(Exception e)
     {
-
+        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
+      return re;
+    }
+  }
+
+  public static String getActivation(String username){
+    connectToDatabase();
+    String re=null;
+  try{
+
+      re=ot.getActivation(username);
+    }
+    catch(Exception e){
+      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+    }
+    finally{
       return re;
     }
   }
