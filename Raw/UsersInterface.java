@@ -40,7 +40,7 @@ public final class UsersInterface
 
   private static void connectToDatabase()
   {
-    if(c==null){
+    if(ot==null){
     try
       {
         Database db=null;
@@ -71,11 +71,10 @@ public final class UsersInterface
     try
     {
      
-      re=ot.registerUser(username,password,fullname,email,pNum);
+      re=ot.registerUser(username.trim(),password.trim(),fullname.trim(),email.trim(),pNum.trim());
     }
     catch(Exception e)
     {
-      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -98,11 +97,10 @@ public final class UsersInterface
     try
     {
      
-      re=ot.login(username,password);
+      re=ot.login(username.trim(),password.trim());
     }
     catch(Exception e)
     {
-      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -126,11 +124,11 @@ public final class UsersInterface
     try
     {
      
-      re=ot.userLoginReset(username,key);
+      re=ot.userLoginReset(username.trim(),key.trim());
     }
     catch(Exception e)
     {
-      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+      
     }
     finally
     {
@@ -153,11 +151,10 @@ public final class UsersInterface
     int re=-1;
     try
     {
-      re=ot.emailLoginReset(username,key);
+      re=ot.emailLoginReset(username.trim(),key.trim());
     }
     catch(Exception e)
     {
-      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -179,11 +176,10 @@ public final class UsersInterface
     boolean re=false;
     try
     {
-      re=ot.testActivatedKey(username,key);
+      re=ot.testActivatedKey(username.trim(),key.trim());
     }
     catch(Exception e)
     {
-      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -204,11 +200,10 @@ public final class UsersInterface
     boolean re=false;
     try
     {
-      re=ot.removeUser(username);
+      re=ot.removeUser(username.trim());
     }
     catch(Exception e)
     {
-      System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -229,11 +224,10 @@ public final class UsersInterface
     String re="";
     try
     {
-      re=ot.getUserDetails(username);
+      re=ot.getUserDetails(username.trim());
     }
     catch(Exception e)
     {
-        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -254,11 +248,10 @@ public final class UsersInterface
     String re="";
     try
     {
-      re=ot.getEmail(username);
+      re=ot.getEmail(username.trim());
     }
     catch(Exception e)
     {
-        System.err.println( e.getClass().getName()+": "+ e.getMessage() );
     }
     finally
     {
@@ -279,7 +272,7 @@ public final class UsersInterface
     String re="";
     try
     {
-      re=ot.getPhoneNumber(username);
+      re=ot.getPhoneNumber(username.trim());
     }
     catch(Exception e)
     {
