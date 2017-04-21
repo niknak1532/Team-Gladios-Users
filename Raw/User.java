@@ -34,7 +34,7 @@ public class User
  
  public boolean registerUser(String username,String password,String fullname,String email,String pNum) throws Exception
  {
-  String sql="SELECT * FROM "+" Users" + " WHERE username=\'"+username+"\' AND password=\'"+password+"\' ;";
+  String sql="SELECT * FROM "+" Users" + " WHERE username=\'"+username.trim()+"\' AND password=\'"+password.trim()+"\' ;";
   ResultSet result=stmt.executeQuery(sql);
   //System.out.println(setExpirationDate());
   if(result.next())
@@ -43,17 +43,15 @@ public class User
   sql="INSERT INTO ";
   sql += "Users (Username,Password,Fullname,Email,ActivatedKey,ResetKey,ResetDate,PhoneNumber,Activated,Admin)" ;
   sql +="VALUES (\'";
-  sql += username+"\',\'"+password+"\',\'"+fullname+"\',\'"+email; /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
+  sql += username.trim()+"\',\'"+password.trim()+"\',\'"+fullname.trim()+"\',\'"+email.trim(); /* please arrange  and on (don,t forget to comma separate) the parameters according to how the columns are set up */ ;
   sql+="\',\'"+createActivationKey();
 
   sql+="\',\'"+createActivationKey();
    
   sql+="\',\'"+setExpirationDate();
-  sql+="\',\'"+pNum;
+  sql+="\',\'"+pNum.trim();
   sql+="\',false,false);";
   stmt.executeUpdate(sql);
-
-  //System.out.println("here");
   return true;
  }
  
@@ -68,7 +66,7 @@ public class User
  
  public int login(String username,String password) throws Exception
  {
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\' AND Password=\'"+password+"\' ;";
+  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username.trim()+"\' AND Password=\'"+password.trim()+"\' ;";
   ResultSet result=stmt.executeQuery(sql);
   if(result.next()&&result.getBoolean("Activated"))
    return result.getInt("id");
@@ -85,10 +83,10 @@ public class User
 */
 public int userLoginReset(String username, String key) throws SQLException
 {
-   String sql="SELECT * FROM UserTable WHERE Username=\'"+username+"\' AND ActivatedKey=\'"+key+"\' ;";
+   String sql="SELECT * FROM UserTable WHERE Username=\'"+username.trim()+"\' AND ActivatedKey=\'"+key.trim()+"\' ;";
    ResultSet result=stmt.executeQuery(sql);
    if(result.next()&&checkDate(result.getString("ResetDate"))){
-           sql="UPDATE User SET ResetDate=NULL WHERE Username=\'"+username+"\' ;";
+           sql="UPDATE User SET ResetDate=NULL WHERE Username=\'"+username.trim()+"\' ;";
             stmt.executeQuery(sql);
            return result.getInt("id");
    }else
@@ -104,10 +102,10 @@ public int userLoginReset(String username, String key) throws SQLException
 */
 public int emailLoginReset(String email, String key) throws SQLException
 {
-   String sql="SELECT * FROM UserTable WHERE Email=\'"+email+"\' AND ActivatedKey=\'"+key+"\' ;";
+   String sql="SELECT * FROM UserTable WHERE Email=\'"+email.trim()+"\' AND ActivatedKey=\'"+key.trim()+"\' ;";
    ResultSet result=stmt.executeQuery(sql);
    if(result.next()&&checkDate(result.getString("ResetDate"))){
-            sql="UPDATE User SET ResetDate=NULL WHERE Email=\'"+email+"\' ;";
+            sql="UPDATE User SET ResetDate=NULL WHERE Email=\'"+email.trim()+"\' ;";
             stmt.executeQuery(sql);
            return result.getInt("id");
    }else
@@ -123,11 +121,11 @@ public int emailLoginReset(String email, String key) throws SQLException
  */
  public boolean removeUser(String username) throws Exception
  {
-  String sql="DELETE FROM "+"Users" + " WHERE Username=\'"+username+"\' ;";
+  String sql="DELETE FROM "+"Users" + " WHERE Username=\'"+username.trim()+"\' ;";
   stmt.executeUpdate(sql);
   //stmt.close();
   //db.commit();
-   sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
+   sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username.trim()+"\';";
   ResultSet result=stmt.executeQuery(sql);
   if(result.next())
    return false;
@@ -143,14 +141,14 @@ public int emailLoginReset(String email, String key) throws SQLException
      */
  public String getUserDetails(String username) throws Exception
  {
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
+  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username.trim()+"\';";
 
   ResultSet result=stmt.executeQuery(sql);
 
   if(result.next())
   {
-    //System.out.println(result.getString("email"));
-   return result.getString("Fullname")+";"+result.getString("Email")+";"+result.getString("Phonenumber");
+    String tmp=result.getString("Fullname").trim()+";"+result.getString("Email").trim()+";"+result.getString("Phonenumber").trim();
+   return tmp;
   }
   else
    return null;
@@ -165,13 +163,12 @@ public int emailLoginReset(String email, String key) throws SQLException
  public String getEmail(String username) throws Exception
  {
 
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
+  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username.trim()+"\';";
 
   ResultSet result=stmt.executeQuery(sql);
 
   if(result.next())
   {
-    //System.out.println(result.getString("email"));
    return result.getString("email").trim();
   }
   else
@@ -187,7 +184,7 @@ public int emailLoginReset(String email, String key) throws SQLException
  */
  public String getPhoneNumber(String username) throws Exception
  {
-  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username+"\';";
+  String sql="SELECT * FROM "+"Users" + " WHERE Username=\'"+username.trim()+"\';";
   ResultSet result=stmt.executeQuery(sql);
   if(result.next())
    return result.getString("PhoneNumber").trim();
@@ -203,10 +200,9 @@ public int emailLoginReset(String email, String key) throws SQLException
  */
 public boolean isAdmin(String username) throws SQLException
  {
-    String sql="SELECT * FROM UserTable WHERE Username=\'"+username+"\' AND Admin=true ;";
+    String sql="SELECT * FROM UserTable WHERE Username=\'"+username.trim()+"\' AND Admin=true ;";
     ResultSet result=stmt.executeQuery(sql);
     if(result.next()){
-            System.out.println(username+" is Admin");
             return true;
     }else
             return false;
@@ -219,12 +215,11 @@ public boolean isAdmin(String username) throws SQLException
      * @throws SQLException
      */
     public boolean makeAdmin(String username) throws SQLException{
-    String sql="SELECT * FROM UserTable WHERE Username=\'"+username+"\' ;";
+    String sql="SELECT * FROM UserTable WHERE Username=\'"+username.trim()+"\' ;";
     ResultSet result=stmt.executeQuery(sql);
     if(result.next()){
-        sql="UPDATE UserTable SET Admin=true WHERE Username=\'"+username+"\' ;";
+        sql="UPDATE UserTable SET Admin=true WHERE Username=\'"+username.trim()+"\' ;";
         stmt.execute(sql);
-        System.out.println("You have been successfully activated!");
         return true;
     }else
         return false;
@@ -298,9 +293,8 @@ public String getActivation(String username) throws Exception{
     if(result.next())
             activatedKey=result.getString("activatedKey");
     else
-            activatedKey="";
-    System.out.println(getEmail(username)+" "+activatedKey);
-    return getEmail(username)+";"+activatedKey;
+            return null;
+    return getEmail(username).trim()+";"+activatedKey.trim();
 }
 
 /**
@@ -317,7 +311,6 @@ public boolean testActivatedKey(String username,String key) throws Exception
   if(result.next()){
       sql="UPDATE UserTable SET Activated=true WHERE Username=\'"+username+"\' ;";
       stmt.execute(sql);
-      System.out.println("You have been successfully activated!");
       return true;
   } else
       return false;
@@ -334,7 +327,6 @@ public String getResetKey(String username) throws Exception
     String sql="SELECT * FROM UserTable WHERE Username=\'"+username+"';";
     ResultSet result=stmt.executeQuery(sql);
     if(result.next()){
-        System.out.println(result.getString("ResetKey"));
         return result.getString("ResetKey");
     }else
         return null;
