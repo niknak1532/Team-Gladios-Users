@@ -3,8 +3,6 @@
 
 # Team Members
 
-Soroush Peter
-
 Ncube Nkosenhle
 
 Letsoalo Joseph 
